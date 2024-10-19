@@ -16,11 +16,10 @@ def generate_embeddings_gemini(text):
     task_type="retrieval_document")
     return result['embedding']
 
-index = faiss.IndexFlatL2(len(generate_embeddings_gemini("hello world")))
-
 
 
 def get_vectorstore(text_chunks):
+    index = faiss.IndexFlatL2(len(generate_embeddings_gemini("hello world")))
     vector_store = FAISS(
     embedding_function=generate_embeddings_gemini,
     index=index,

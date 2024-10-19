@@ -60,10 +60,11 @@ def handle_userinput(user_question):
         else:
             st.write(bot_template.replace(
                 "{{MSG}}", message.content), unsafe_allow_html=True)
+    
 
 
 def main():
-    st.set_page_config(page_title="Chat with multiple PDFs",
+    st.set_page_config(page_title="Chat with PDFs",
                        page_icon=":books:")
     st.write(css, unsafe_allow_html=True)
 
@@ -72,18 +73,17 @@ def main():
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = None
 
-    st.header("Chat with multiple PDFs :books:")
-    user_question = st.text_input("Ask a question about your documents:")
-    if user_question:
-        handle_userinput(user_question)
+    st.header("Chat with PDFs :books:")
+    
         # chat(vectorstore, user_question)
     pdf_reader = PDFReader()
-    with st.sidebar:
-        st.subheader("Your documents")
+    [column] = st.columns(1)
+    with column:
+        st.subheader("Uploaded Files")
         pdf_docs = st.file_uploader(
-            "Upload your PDFs here and click on 'Process'", accept_multiple_files=True)
-        if st.button("Process"):
-            with st.spinner("Processing"):
+            "Upload your PDFs and click on 'Start Processing'", accept_multiple_files=True)
+        if st.button("Start Processing"):
+            with st.spinner("Under Process"):
                 # get pdf text
                 raw_text = pdf_reader.read(pdf_docs)
                 # get the text chunks
@@ -96,7 +96,9 @@ def main():
                 # create conversation chain
                 st.session_state.conversation = get_conversation_chain(
                     vectorstore)
-
+        user_question = st.text_input("What do you want to ask?")
+        if user_question:
+            handle_userinput(user_question)
 
 if __name__ == '__main__':
     main()

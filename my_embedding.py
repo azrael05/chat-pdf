@@ -14,7 +14,7 @@ def generate_embeddings_gemini(text):
     model="models/text-embedding-004",
     content=text,
     task_type="retrieval_document")
-    return result['embedding']
+    return result['embedding'][:512]
 
 
 

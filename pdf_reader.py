@@ -25,6 +25,7 @@ class PDFReader:
                 all_pages = file.pages
                 for page in all_pages:
                     text += page.extract_text() # you can print and check the data from any page in pdf
+                
         return text
     # def get_content(self, pdf_docs):
     #     text = ""
